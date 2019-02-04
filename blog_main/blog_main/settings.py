@@ -135,3 +135,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# Adds CASCADE delete behaviour to DB
+ON_DELETE_HANDLED_BY_DB = True
+
+# Adds CASCADE update behaviour to DB
+ON_UPDATE_HANDLED_BY_DB = True
