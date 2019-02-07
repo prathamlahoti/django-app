@@ -123,7 +123,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Public link to the directory with uploaded files
-MDEIA_URL = '/media/'
+MEDIA_URL = '/media/'
 
 # Refer crispy to use bootstrap4 for styles
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -141,3 +141,9 @@ ON_DELETE_HANDLED_BY_DB = True
 
 # Adds CASCADE update behaviour to DB
 ON_UPDATE_HANDLED_BY_DB = True
+
+# The URL where requests are redirected for login,
+LOGIN_URL = 'login'
+
+# The URL where requests are redirected after login
+LOGIN_REDIRECT_URL = 'posts'
