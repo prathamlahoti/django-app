@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from posts.models import Post
+from .models import Post
 
 
 class PostsListView(ListView):
@@ -8,6 +8,7 @@ class PostsListView(ListView):
     template_name = 'posts_list.html'
     context_object_name = 'posts'
     ordering = ['-post_posted_date']
+    paginate_by = 1
 
 
 class PostDetailView(DetailView):
