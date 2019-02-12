@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% load socialaccount %}
+{% providers_media_js  %}
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
@@ -6,6 +8,7 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Log In</legend>
+                    <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook Connect</a>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
