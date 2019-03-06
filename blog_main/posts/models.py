@@ -2,21 +2,24 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from django.contrib.auth.models import User
+from categories.models import Category
+from tags.models import Tag
 
 
 class Post(models.Model):
     """ Post Model """
-    post_title = models.CharField(unique=True, max_length=80)
-    post_text = models.TextField()
-    post_posted_date = models.DateField(default=timezone.now)
-    post_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(unique=True, max_length=80)
+    context = models.TextField()
+    posted_date = models.DateField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag)
+    # post meta data
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    def __repr__(self):
-        return f"""
-                   Post ID: {self.pk}, 
-                   Post Title: {self.post_title},
-                   Post Author: {self.post_author}
-                """
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         """ Redirects user to a specific post after post CUD operations """
