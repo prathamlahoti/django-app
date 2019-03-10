@@ -59,14 +59,12 @@ class PostByTagView(ListView):
     @staticmethod
     def get_tags():
         """ Returns all availale tags. Retrieving tags as a list"""
-        tags = Tag.objects.all().values_list('title', flat=False)
-        return [tag[1:] for tag in tags]
-    
+        return Tag.objects.all().values_list('title', flat=False)
 
     def get_queryset(self):
-        """ Getting post tag and searching all posts with chosen tag """
-        tags = get_object_or_404(Tag, title = self.kwargs.get('tag')[1:])
-        return Post.objects.filter(tag__in=get_tags()).order_by('-posted_date')
+        """ Getting posts by specified tag"""
+        tag = get_object_or_404(Tag, title='#'+self.kwargs.get('tag'))
+        return Post.objects.filter(tags__in=[tag]).order_by('-posted_date')
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
