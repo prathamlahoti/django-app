@@ -12,8 +12,10 @@ class PostsListView(ListView):
     model = Post
     template_name = 'posts_list.html'
     context_object_name = 'posts'
-    ordering = ['-posted_date']
-    paginate_by = 2
+    paginate_by = 3
+    queryset = Post.objects \
+        .only('title', 'context', 'posted_date', 'author', 'category', 'tags') \
+        .order_by('-posted_date')
 
 
 class PostDetailView(DetailView):
@@ -21,6 +23,9 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'post_detail.html'
     context_object_name = 'post'
+    queryset = Post.objects\
+        .only('title', 'context', 'posted_date', 'author', 'category', 'tags') \
+        .order_by('-posted_date')
 
 
 class PostByCategoryView(ListView):
@@ -46,7 +51,7 @@ class PostByUserView(ListView):
     def get_queryset(self):
         """ Extracting category title from url and searching posts by this category"""
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Post.objects.filter(author=user).order_by('-posted_date') 
+        return Post.objects.filter(author=user).order_by('-posted_date')
 
 
 class PostByTagView(ListView):
@@ -56,14 +61,9 @@ class PostByTagView(ListView):
     context_object_name = 'posts'
     paginate_by = 2
 
-    @staticmethod
-    def get_tags():
-        """ Returns all availale tags. Retrieving tags as a list"""
-        return Tag.objects.all().values_list('title', flat=False)
-
     def get_queryset(self):
         """ Getting posts by specified tag"""
-        tag = get_object_or_404(Tag, title='#'+self.kwargs.get('tag'))
+        tag = get_object_or_404(Tag, title='#' + self.kwargs.get('tag'))
         return Post.objects.filter(tags__in=[tag]).order_by('-posted_date')
 
 
@@ -103,6 +103,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'
     template_name = 'post_cud/post_delete_form.html'
+
     # route to redirect user after successful deleting
 
     def test_func(self):
